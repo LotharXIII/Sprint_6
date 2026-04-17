@@ -6,13 +6,9 @@ from selenium import webdriver
 from pages.home_page import HomePage
 from data.home_page_data import HomePageData
 
-
+@pytest.mark.usefixtures("driver_setup")
 class TestHomePage:
     questions_list = list(HomePageData.questions.items())
-
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
 
     def setup_method(self):
         self.home_page = HomePage(self.driver)
@@ -27,8 +23,3 @@ class TestHomePage:
             self.home_page.click_accordion_button(header_number)
         with allure.step(f'Проверяем текст ответа'):
             self.home_page.check_accordion_panel_text(header_number, expected_answer)
-
-    @classmethod
-    def teardown_class(cls):
-        with allure.step('Закрываем браузер'):
-            cls.driver.quit()

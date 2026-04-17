@@ -7,13 +7,8 @@ from pages.create_order_page import CreateOrderPage
 from locators.home_page_locators import HomePageLocators
 from data.order_data import OrderData
 
-
+@pytest.mark.usefixtures("driver_setup")
 class TestCreateOrderPage:
-
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
-
     def setup_method(self):
         self.create_order_page = CreateOrderPage(self.driver)
         self.create_order_page.open_page()
@@ -64,8 +59,3 @@ class TestCreateOrderPage:
         with allure.step(
                 f'Кликаем на логотип "Самоката" в правом верхнем углу страницы и проверяем открытие главной страницы Дзена в новой вкладке'):
             self.create_order_page.check_current_url_dzen_in_new_window()
-
-    @classmethod
-    def teardown_class(cls):
-        with allure.step('Закрываем браузер'):
-            cls.driver.quit()
